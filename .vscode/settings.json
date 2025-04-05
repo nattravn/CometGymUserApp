@@ -1,29 +1,22 @@
 {
-  "editor.detectIndentation": false,
-  "editor.insertSpaces": false,
-  "editor.tabSize": 4,
-  "angular-schematics.schematicsDefaultOptions": {
-    "angular-*": {
-      "style": "scss"
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.inlineSuggest.enabled": true,
+    "prettier.configPath": ".prettierrc.js",
+    "files.autoSave": "off",
+    "eslint.format.enable": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always",
+        "source.fixAll.eslint": "always",
+        "source.fixAll.stylelint": "always"
     }
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": "explicit"
-    },
-    "editor.formatOnSave": false
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit",
-      "source.fixAll.eslint": "explicit",
-      "source.fixAll.tslint": "explicit",
-      "source.fixAll.stylelint": "explicit"
-    },
-    "editor.formatOnSave": true
-  },
-  "editor.suggest.snippetsPreventQuickSuggestions": false,
-  "editor.inlineSuggest.enabled": true
 }
