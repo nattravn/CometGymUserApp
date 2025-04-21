@@ -1,22 +1,39 @@
 {
-    "editor.formatOnSave": true,
-    "editor.tabSize": 4,
-    "[html]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.inlineSuggest.enabled": true,
-    "prettier.configPath": ".prettierrc.js",
-    "files.autoSave": "off",
+    "css.lint.unknownAtRules": "ignore",
+    "scss.lint.unknownAtRules": "ignore",
+    "eslint.enable": true,
     "eslint.format.enable": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always",
-        "source.fixAll.eslint": "always",
-        "source.fixAll.stylelint": "always"
-    }
+    "eslint.validate": ["javascript", "typescript", "html"],
+    "eslint.useFlatConfig": true,
+    "eslint.workingDirectories": ["../src"],
+    "eslint.options": {
+        "overrideConfigFile": "eslint.config.js"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
 }
+
+// {
+//     "editor.formatOnSave": true,
+//     "editor.tabSize": 4,
+//     "[html]": {
+//         "editor.defaultFormatter": "esbenp.prettier-vscode"
+//     },
+//     "[typescript]": {
+//         "editor.defaultFormatter": "esbenp.prettier-vscode"
+//     },
+//     "[javascript]": {
+//         "editor.defaultFormatter": "esbenp.prettier-vscode"
+//     },
+//     "editor.inlineSuggest.enabled": true,
+//     "prettier.configPath": ".prettierrc.js",
+//     "files.autoSave": "off",
+//     "eslint.format.enable": true,
+//     "editor.codeActionsOnSave": {
+//         "source.organizeImports": "always",
+//         "source.fixAll.eslint": "always",
+//         "source.fixAll.stylelint": "always"
+//     }
+
+
+// }
