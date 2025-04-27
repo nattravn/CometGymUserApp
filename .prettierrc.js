@@ -7,7 +7,7 @@ module.exports = {
   arrowParens: 'avoid',
   trailingComma: 'es5',
   bracketSameLine: true,
-  printWidth: 80,
+  printWidth: 120,
   endOfLine: 'auto',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrderParserPlugins: ['typescript', 'decorators-legacy'],

@@ -1,13 +1,14 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import { ToastrService } from 'ngx-toastr';
 
 import { MaterialModule } from '@app/material/material.module';
+import { ApiResponse } from '@app/models/api-response';
+import { UserRegistration } from '@app/models/user.model';
+import { UserService } from '@app/services/user.service';
 
 // import { UserRegistration } from '@app/models/user.model';
 
@@ -16,7 +17,7 @@ export type RegisterFormControls = {
 };
 
 interface RegisterForm {
-    username: FormControl<string>;
+    userName: FormControl<string>;
     email: FormControl<string>;
     password: FormControl<string>;
     confirmPassword: FormControl<string>;
@@ -43,8 +44,14 @@ export class RegisterComponent implements OnInit {
     formBuilder2: FormBuilder = new FormBuilder();
     //regForm!: FormGroup<RegisterFormControls>;
     _regForm!: FormGroup<RegisterForm>;
+    private _response: ApiResponse | undefined;
 
-    constructor(private fb: FormBuilder) {}
+    constructor(
+        private fb: FormBuilder,
+        private userService: UserService,
+        private toastr: ToastrService,
+        private router: Router
+    ) {}
     ngOnInit(): void {
         // this.regForm = this.fb.nonNullable.group<RegisterFormControls>({
         //     username: this.fb.nonNullable.control(
@@ -65,7 +72,7 @@ export class RegisterComponent implements OnInit {
         // });
 
         this._regForm = new FormGroup<RegisterForm>({
-            username: new FormControl('', {
+            userName: new FormControl('', {
                 nonNullable: true,
                 validators: [Validators.required, Validators.minLength(5)],
             }),
@@ -94,13 +101,24 @@ export class RegisterComponent implements OnInit {
 
     proceedregister() {
         if (this._regForm.valid) {
-            // let _obj: UserRegistration = {
-            //   userName: this._regForm.value.username,
-            //   name: this._regForm.value.name,
-            //   phone: this._regForm.value.phone,
-            //   email: this._regForm.value.email,
-            //   password: this._regForm.value.password
-            // }
+            const { userName, name, phone, email, password } = this._regForm.getRawValue();
+            const _obj: UserRegistration = {
+                userName: userName,
+                name,
+                phone,
+                email,
+                password,
+            };
+            this.userService.UserRegistartion(_obj).subscribe(item => {
+                this._response = item;
+                console.log('this._response: ', this._response);
+                if (this._response.responseCode == HttpStatusCode.Ok) {
+                    this.toastr.success('Validate OTP & complete the registration', 'Registration');
+                    this.router.navigateByUrl('/confirmotp');
+                } else {
+                    this.toastr.error(`Faild due to : ${this._response.message}`, 'Registration Faild');
+                }
+            });
         }
     }
 }
