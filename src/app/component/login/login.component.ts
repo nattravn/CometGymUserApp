@@ -1,9 +1,79 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+
+import { AsyncClickDirective } from 'ngx-async-click';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+
+import { MaterialModule } from '@app/material/material.module';
+import { ApiResponse } from '@app/models/api-response';
+import { userCred } from '@app/models/user.model';
+import { UserStoreService } from '@app/services/user.store.service';
+
+interface LoginForm {
+    username: FormControl<string>;
+    password: FormControl<string>;
+}
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-login',
-    imports: [],
+    standalone: true,
+    imports: [ReactiveFormsModule, MaterialModule, RouterLink, CommonModule, AsyncClickDirective],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss',
 })
-export class LoginComponent {}
+export class LoginComponent implements OnInit {
+    loginform = new FormGroup<LoginForm>({
+        username: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required],
+        }),
+        password: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required],
+        }),
+    });
+
+    response$?: Observable<ApiResponse>;
+
+    constructor(
+        private userService: UserStoreService,
+        private toastr: ToastrService,
+        private router: Router
+    ) {}
+
+    ngOnInit(): void {
+        localStorage.clear();
+        this.userService._menulist.set([]);
+    }
+
+    proceedlogin$(): Observable<ApiResponse> {
+        if (!this.loginform.valid) return of();
+        const formValue: userCred = this.loginform.getRawValue();
+
+        return this.userService.Proceedlogin(formValue).pipe(
+            switchMap(user => {
+                localStorage.setItem('token', user.token);
+                localStorage.setItem('username', formValue.username);
+                localStorage.setItem('userrole', user.userRole);
+
+                console.log('user: ', user);
+
+                return this.userService.LoadMenuByRole(user.userRole);
+            }),
+            tap(menuResponse => {
+                console.log('menuResponse: ', menuResponse);
+                this.userService._menulist.set(menuResponse);
+                this.router.navigateByUrl('/');
+            }),
+            catchError(error => {
+                console.error('error: ', error);
+                this.toastr.error('Failed to login', `${error.error.title} ${error.error.status}`);
+                return of(error);
+            })
+        );
+    }
+}
