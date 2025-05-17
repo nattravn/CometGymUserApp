@@ -7,8 +7,8 @@ import { AsyncClickDirective } from './async-click.directive';
  * Could be imported once in your Shared Module to work everywhere.
  */
 @NgModule({
-    declarations: [AsyncClickDirective],
-    imports: [],
+    declarations: [],
+    imports: [AsyncClickDirective],
     exports: [AsyncClickDirective],
 })
 export class AsyncClickModule {}
