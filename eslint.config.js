@@ -34,6 +34,8 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
+      '@angular-eslint/prefer-standalone': ['warn'],
+      '@angular-eslint/prefer-on-push-component-change-detection': ['warn'],
       'import/order': 'off',
       '@typescript-eslint/no-explicit-any': ['off'],
       '@typescript-eslint/member-ordering': 0,
@@ -46,6 +48,7 @@ module.exports = tseslint.config(
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@/prefer-template': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'error',
     },
   },
   {
