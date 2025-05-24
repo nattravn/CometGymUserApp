@@ -34,7 +34,7 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
-      '@angular-eslint/prefer-standalone': ['warn'],
+      '@angular-eslint/prefer-standalone': ['off'],
       '@angular-eslint/prefer-on-push-component-change-detection': ['warn'],
       'import/order': 'off',
       '@typescript-eslint/no-explicit-any': ['off'],

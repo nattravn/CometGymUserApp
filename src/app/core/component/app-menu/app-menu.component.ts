@@ -1,20 +1,18 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, effect, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { filter, Observable } from 'rxjs';
 
-import { MaterialModule } from '@app/material/material.module';
 import { menu } from '@app/models/user.model';
 import { UserStoreService } from '@app/services/user.store.service';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-app-menu',
-    imports: [MaterialModule, RouterOutlet, RouterLink, CommonModule],
     templateUrl: './app-menu.component.html',
     styleUrl: './app-menu.component.scss',
+    standalone: false,
 })
 export class AppMenuComponent implements OnInit {
     menulist!: menu[];

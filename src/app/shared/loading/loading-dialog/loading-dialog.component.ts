@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     selector: 'app-loading-dialog',
     templateUrl: './loading-dialog.component.html',
     styleUrls: ['./loading-dialog.component.scss'],
+    standalone: false,
 })
 export class LoadingDialogComponent {
     constructor() {}

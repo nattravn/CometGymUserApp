@@ -1,13 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { AppMenuComponent } from './component/app-menu/app-menu.component';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-root',
-    standalone: true,
-    imports: [CommonModule, AppMenuComponent],
+    standalone: false,
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

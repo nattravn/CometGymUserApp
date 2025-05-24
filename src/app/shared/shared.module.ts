@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { MaterialModule } from '../material.module';
+import { MaterialModule } from '@app/material/material.module';
+
 import { ErrorDialogService } from './errors/error-dialog.service';
 import { ErrorDialogComponent } from './errors/error-dialog/error-dialog.component';
 import { LoadingDialogService } from './loading/loading-dialog.service';
@@ -15,6 +16,6 @@ const sharedComponents = [LoadingDialogComponent, ErrorDialogComponent];
     imports: [CommonModule, RouterModule, MaterialModule],
     exports: [...sharedComponents],
     providers: [ErrorDialogService, LoadingDialogService],
-    entryComponents: [...sharedComponents],
+    //entryComponents: [...sharedComponents],
 })
 export class SharedModule {}
