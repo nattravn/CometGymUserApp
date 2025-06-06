@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, tap } from 'rxjs';
 
 import { environment } from '@environments/environment.development';
 
-import { ApiResponse } from '@app/models/api-response';
+import { ApiResponse } from '@app/core/models/api-response';
 import {
     loginResp,
     menu,
@@ -13,7 +13,7 @@ import {
     ResetPasswordFormModel,
     userCred,
     UserRegistration,
-} from '@app/models/user.model';
+} from '@app/core/models/user.model';
 
 @Injectable({
     providedIn: 'root',

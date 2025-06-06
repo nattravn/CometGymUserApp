@@ -5,7 +5,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 
 import { AsyncClickDirective } from 'ngx-async-click';
 
-import { MaterialModule } from '@app/material/material.module';
+import { MaterialModule } from '@app/core/material/material.module';
 
 import { AppMenuComponent } from './component/app-menu/app-menu.component';
 import { HomeComponent } from './component/home/home.component';

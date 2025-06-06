@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
-import { ApiResponse } from '@app/models/api-response';
-import { userCred } from '@app/models/user.model';
-import { UserStoreService } from '@app/services/user.store.service';
+import { ApiResponse } from '@app/core/models/api-response';
+import { userCred } from '@app/core/models/user.model';
+import { UserStoreService } from '@app/core/services/user.store.service';
 
 interface LoginForm {
     username: FormControl<string>;
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
             tap(menuResponse => {
                 console.log('menuResponse: ', menuResponse);
                 this.userService._menulist.set(menuResponse);
-                this.router.navigateByUrl('/home');
+                this.router.navigateByUrl('app/home');
             }),
             catchError(error => {
                 console.error('error: ', error);

@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     selector: 'app-auth',
     templateUrl: './auth.component.html',
     styleUrls: ['./auth.component.css'],
+    standalone: false,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent implements OnInit {

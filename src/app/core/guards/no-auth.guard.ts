@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 
-import { AuthService } from '@app/services/auth.service';
+import { AuthService } from '@app/core/services/auth.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class NoAuthGuard implements CanActivate {
     constructor(
         private auth: AuthService,
         private router: Router
     ) {}
 
     canActivate(): boolean {
-        if (this.auth.isLoggedIn()) {
+        if (!this.auth.isLoggedIn()) {
             return true;
         }
-        this.router.navigate(['/login']);
-        console.log('redirect login');
+        this.router.navigate(['app/home']); // or whatever your main route is
+        console.log('redirect');
         return false;
     }
 }

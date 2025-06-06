@@ -1,17 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { debounceTime, map, Observable, of, startWith, tap } from 'rxjs';
 
-import { MaterialModule } from '@app/material/material.module';
-import { ApiResponse } from '@app/models/api-response';
-import { UserStoreService } from '@app/services/user.store.service';
-
-import { AsyncClickModule } from '../directives/async-click.module';
+import { ApiResponse } from '@app/core/models/api-response';
+import { UserStoreService } from '@app/core/services/user.store.service';
 
 // import { UserRegistration } from '@app/models/user.model';
 
@@ -40,7 +36,7 @@ export interface RegisterFormModel {
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-register',
-    imports: [ReactiveFormsModule, MaterialModule, CommonModule, AsyncClickModule],
+    standalone: false,
     templateUrl: './register.component.html',
     styleUrl: './register.component.scss',
 })

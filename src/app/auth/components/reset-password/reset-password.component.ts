@@ -1,17 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AsyncClickDirective } from 'ngx-async-click';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of, tap } from 'rxjs';
 
-import { MaterialModule } from '@app/material/material.module';
-import { ApiResponse } from '@app/models/api-response';
-import { ResetPasswordFormModel } from '@app/models/user.model';
-import { UserStoreService } from '@app/services/user.store.service';
+import { ApiResponse } from '@app/core/models/api-response';
+import { ResetPasswordFormModel } from '@app/core/models/user.model';
+import { UserStoreService } from '@app/core/services/user.store.service';
 
 interface RegisterForm {
     //username: FormControl<string>;
@@ -24,7 +21,7 @@ interface RegisterForm {
     selector: 'app-reset-password',
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.css'],
-    imports: [ReactiveFormsModule, MaterialModule, CommonModule, AsyncClickDirective],
+    standalone: false,
 })
 export class ResetPasswordComponent {
     resetForm = new FormGroup<RegisterForm>({
@@ -69,7 +66,7 @@ export class ResetPasswordComponent {
                 console.log('this._response: ', apiResponse);
                 if (apiResponse.responseCode == HttpStatusCode.Ok) {
                     this.toastr.success('Please login with new password', 'Password changed');
-                    this.router.navigateByUrl('/login');
+                    this.router.navigateByUrl('app/login');
                 } else {
                     this.toastr.error(
                         `Failed due to : ${apiResponse.message ?? apiResponse.result}`,

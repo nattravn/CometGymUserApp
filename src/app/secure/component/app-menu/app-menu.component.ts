@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import { menu } from '@app/models/user.model';
-import { UserStoreService } from '@app/services/user.store.service';
+import { menu } from '@app/core/models/user.model';
+import { UserStoreService } from '@app/core/services/user.store.service';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,10 +44,11 @@ export class AppMenuComponent implements OnInit {
     logOut(): void {
         localStorage.clear();
         this.userService._menulist.set([]);
-        this.router.navigate(['login']);
+        this.router.navigate(['auth/login']);
     }
 
     resetPassword(): void {
-        this.router.navigate(['resetpassword']);
+        console.log('resetpassword: ');
+        this.router.navigate(['auth/resetpassword']);
     }
 }

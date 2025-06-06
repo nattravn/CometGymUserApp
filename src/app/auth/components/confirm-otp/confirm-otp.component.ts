@@ -1,20 +1,18 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 
-import { MaterialModule } from '@app/material/material.module';
-import { ApiResponse } from '@app/models/api-response';
-import { RegisterConfirm } from '@app/models/user.model';
-import { UserStoreService } from '@app/services/user.store.service';
+import { ApiResponse } from '@app/core/models/api-response';
+import { RegisterConfirm } from '@app/core/models/user.model';
+import { UserStoreService } from '@app/core/services/user.store.service';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-confirm-otp',
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, MaterialModule, RouterLink],
+    standalone: false,
     templateUrl: './confirm-otp.component.html',
     styleUrl: './confirm-otp.component.scss',
 })
@@ -44,7 +42,7 @@ export class ConfirmOtpComponent implements OnInit {
                     username: '',
                     otptext: '',
                 });
-                this.router.navigateByUrl('/login');
+                this.router.navigateByUrl('app/login');
             } else {
                 this.toastr.error(`Failed Due to:${apiResponse.message}`, 'Registeration Failed');
             }
