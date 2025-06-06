@@ -10,7 +10,10 @@
         "overrideConfigFile": "eslint.config.js"
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "always"
+    }
 }
 
 // {
@@ -34,6 +37,5 @@
 //         "source.fixAll.eslint": "always",
 //         "source.fixAll.stylelint": "always"
 //     }
-
 
 // }

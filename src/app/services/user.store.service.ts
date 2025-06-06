@@ -29,7 +29,6 @@ export class UserStoreService {
 
     _menulist = signal<menu[]>([]);
     _username = signal<string>('');
-    showmenu: boolean = false;
 
     private _menulist$ = new ReplaySubject<menu[]>(1);
     public menulist$ = this._menulist$.asObservable();
@@ -49,11 +48,10 @@ export class UserStoreService {
     }
 
     LoadMenuByRole(role: string): Observable<menu[]> {
-        console.log('load menu++');
         return this.http.get<menu[]>(`${this.baseUrl}UserRole/GetAllMenusbyrole?userrole=${role}`).pipe(
             tap(menuResponse => {
                 console.log('menuResponse: ', menuResponse);
-                this._menulist$.next(menuResponse);
+                //this._menulist$.next(menuResponse);
             })
         );
     }

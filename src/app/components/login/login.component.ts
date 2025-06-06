@@ -1,13 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { AsyncClickDirective } from 'ngx-async-click';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
-import { MaterialModule } from '@app/material/material.module';
 import { ApiResponse } from '@app/models/api-response';
 import { userCred } from '@app/models/user.model';
 import { UserStoreService } from '@app/services/user.store.service';
@@ -20,8 +17,7 @@ interface LoginForm {
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'app-login',
-    standalone: true,
-    imports: [ReactiveFormsModule, MaterialModule, RouterLink, CommonModule, AsyncClickDirective],
+    standalone: false,
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss',
 })
@@ -67,7 +63,7 @@ export class LoginComponent implements OnInit {
             tap(menuResponse => {
                 console.log('menuResponse: ', menuResponse);
                 this.userService._menulist.set(menuResponse);
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('/home');
             }),
             catchError(error => {
                 console.error('error: ', error);

@@ -84,7 +84,9 @@ export class RegisterComponent {
         private userService: UserStoreService,
         private toastr: ToastrService,
         private router: Router
-    ) {}
+    ) {
+        console.log('6666666666666');
+    }
 
     proceedRegister(formValue: RegisterFormModel | null): Observable<ApiResponse> {
         if (!this.regForm.valid || !formValue) return of();
