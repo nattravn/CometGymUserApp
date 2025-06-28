@@ -84,7 +84,7 @@ export class RegisterComponent {
         console.log('6666666666666');
     }
 
-    proceedRegister(formValue: RegisterFormModel | null): Observable<ApiResponse> {
+    proceedRegister$(formValue: RegisterFormModel | null): Observable<ApiResponse> {
         if (!this.regForm.valid || !formValue) return of();
         const user: RegisterFormModel = this.regForm.getRawValue();
 

@@ -31,7 +31,7 @@ export class ForgetPasswordComponent {
                 if (this._response.result == 'pass') {
                     this.toastr.success('OTP sent to the registered email.', 'Forget Password');
                     this.userStoreService._username.set(this.username);
-                    this.router.navigateByUrl('app/updatepassword');
+                    this.router.navigateByUrl('auth/updatepassword');
                 } else {
                     this.toastr.error(`Failed Due to:${this._response.message}`, 'Failed');
                 }

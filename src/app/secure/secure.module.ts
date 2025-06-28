@@ -6,13 +6,14 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { AsyncClickDirective } from 'ngx-async-click';
 
 import { MaterialModule } from '@app/core/material/material.module';
+import { CustumerComponent } from '@app/secure/component/custumer/custumer.component';
 
 import { AppMenuComponent } from './component/app-menu/app-menu.component';
 import { HomeComponent } from './component/home/home.component';
 import { SecureRoutingModule } from './secure.routing.module';
 
 @NgModule({
-    declarations: [HomeComponent, AppMenuComponent],
+    declarations: [HomeComponent, AppMenuComponent, CustumerComponent],
     imports: [
         CommonModule,
         RouterModule,

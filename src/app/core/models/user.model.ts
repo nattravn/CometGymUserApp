@@ -34,8 +34,19 @@ export interface ResetPasswordFormModel {
     newPassword: string;
 }
 
-export interface updatepassword {
+export interface updatePassword {
     username: string;
     password: string;
-    otptext: string;
+    otpText: string;
+}
+
+export interface menupermission {
+    userrole: string;
+    code: string;
+    menucode: string;
+    name: string;
+    haveview: boolean;
+    haveadd: boolean;
+    haveedit: boolean;
+    havedelete: boolean;
 }

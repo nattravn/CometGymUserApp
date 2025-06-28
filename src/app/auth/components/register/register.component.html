@@ -1,5 +1,5 @@
 @let formValue = regForm$ | async;
-<form [formGroup]="regForm" (ngSubmit)="proceedRegister(formValue)">
+<form [formGroup]="regForm" (ngSubmit)="proceedRegister$(formValue)">
     <mat-card>
         <mat-card-header>
             <h1>User Registration</h1>

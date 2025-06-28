@@ -13,8 +13,8 @@ export const routes: Routes = [
         loadChildren: () => import('./secure/secure.module').then(m => m.SecureModule),
         canActivate: [AuthGuard], // double check protection at root
     },
-    { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-    { path: '**', redirectTo: 'auth/login' },
+    { path: '', redirectTo: 'app', pathMatch: 'full' },
+    //{ path: '**', redirectTo: 'auth/login' },
 ];
 
 @NgModule({

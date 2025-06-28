@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 
-import { Observable, ReplaySubject, tap } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 import { environment } from '@environments/environment.development';
 
@@ -9,8 +9,10 @@ import { ApiResponse } from '@app/core/models/api-response';
 import {
     loginResp,
     menu,
+    menupermission,
     RegisterConfirm,
     ResetPasswordFormModel,
+    updatePassword,
     userCred,
     UserRegistration,
 } from '@app/core/models/user.model';
@@ -48,20 +50,24 @@ export class UserStoreService {
     }
 
     LoadMenuByRole(role: string): Observable<menu[]> {
-        return this.http.get<menu[]>(`${this.baseUrl}UserRole/GetAllMenusbyrole?userrole=${role}`).pipe(
-            tap(menuResponse => {
-                console.log('menuResponse: ', menuResponse);
-                //this._menulist$.next(menuResponse);
-            })
-        );
+        return this.http.get<menu[]>(`${this.baseUrl}UserRole/GetAllMenusbyrole?userrole=${role}`);
     }
 
     Resetpassword(_data: ResetPasswordFormModel): Observable<ApiResponse> {
-        console.log('_data: ', _data);
         return this.http.post<ApiResponse>(`${this.baseUrl}User/resetpassword`, _data);
     }
 
     Forgetpassword(username: string): Observable<ApiResponse> {
         return this.http.get<ApiResponse>(`${this.baseUrl}User/forgetpassword?userName=${username}`);
+    }
+
+    Updatepassword(_data: updatePassword): Observable<ApiResponse> {
+        return this.http.post<ApiResponse>(`${this.baseUrl}'User/updatepassword`, _data);
+    }
+
+    Getmenupermission(role: string, menuname: string): Observable<menupermission> {
+        return this.http.get<menupermission>(
+            `${this.baseUrl}UserRole/GetMenupermissionbyrole?userrole=${role}&menucode=${menuname}`
+        );
     }
 }

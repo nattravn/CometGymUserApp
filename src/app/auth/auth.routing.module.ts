@@ -6,7 +6,6 @@ import { ForgetPasswordComponent } from '@app/auth/components/forget-password/fo
 import { RegisterComponent } from '@app/auth/components/register/register.component';
 import { ResetPasswordComponent } from '@app/auth/components/reset-password/reset-password.component';
 import { UpdatePasswordComponent } from '@app/auth/components/update-password/update-password.component';
-import { NoAuthGuard } from '@app/core/guards/no-auth.guard';
 
 import { AuthComponent } from './auth.component';
 import { LoginComponent } from './components/login/login.component';
@@ -16,7 +15,7 @@ const routes: Routes = [
         path: '',
         component: AuthComponent,
         children: [
-            { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] }, // NoAuthGuard to avoid log in every time page user enter base route, but user will always be redirected on back navigation
+            { path: 'login', component: LoginComponent }, // NoAuthGuard to avoid log in every time page user enter base route, but user will always be redirected on back navigation
             //{ path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
             { path: 'confirmotp', component: ConfirmOtpComponent },
