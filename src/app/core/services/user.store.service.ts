@@ -7,13 +7,13 @@ import { environment } from '@environments/environment.development';
 
 import { ApiResponse } from '@app/core/models/api-response';
 import {
-    loginResp,
-    menu,
-    menupermission,
+    LoginResp,
+    Menu,
+    MenuPermission,
     RegisterConfirm,
     ResetPasswordFormModel,
-    updatePassword,
-    userCred,
+    UpdatePassword,
+    UserCred,
     UserRegistration,
 } from '@app/core/models/user.model';
 
@@ -29,10 +29,10 @@ export class UserStoreService {
         otptext: '',
     });
 
-    _menulist = signal<menu[]>([]);
+    _menulist = signal<Menu[]>([]);
     _username = signal<string>('');
 
-    private _menulist$ = new ReplaySubject<menu[]>(1);
+    private _menulist$ = new ReplaySubject<Menu[]>(1);
     public menulist$ = this._menulist$.asObservable();
 
     constructor(private http: HttpClient) {}
@@ -45,12 +45,12 @@ export class UserStoreService {
         return this.http.post<ApiResponse>(`${this.baseUrl}User/confirmregistration`, _data);
     }
 
-    Proceedlogin(_data: userCred): Observable<loginResp> {
-        return this.http.post<loginResp>(`${this.baseUrl}Authorize/GenerateToken`, _data);
+    Proceedlogin(_data: UserCred): Observable<any> {
+        return this.http.post<LoginResp>(`${this.baseUrl}Authorize/GenerateToken`, _data);
     }
 
-    LoadMenuByRole(role: string): Observable<menu[]> {
-        return this.http.get<menu[]>(`${this.baseUrl}UserRole/GetAllMenusbyrole?userrole=${role}`);
+    LoadMenuByRole(role: string): Observable<Menu[]> {
+        return this.http.get<Menu[]>(`${this.baseUrl}UserRole/GetAllMenusbyrole?userrole=${role}`);
     }
 
     Resetpassword(_data: ResetPasswordFormModel): Observable<ApiResponse> {
@@ -61,12 +61,12 @@ export class UserStoreService {
         return this.http.get<ApiResponse>(`${this.baseUrl}User/forgetpassword?userName=${username}`);
     }
 
-    Updatepassword(_data: updatePassword): Observable<ApiResponse> {
+    Updatepassword(_data: UpdatePassword): Observable<ApiResponse> {
         return this.http.post<ApiResponse>(`${this.baseUrl}'User/updatepassword`, _data);
     }
 
-    Getmenupermission(role: string, menuname: string): Observable<menupermission> {
-        return this.http.get<menupermission>(
+    Getmenupermission(role: string, menuname: string): Observable<MenuPermission> {
+        return this.http.get<MenuPermission>(
             `${this.baseUrl}UserRole/GetMenupermissionbyrole?userrole=${role}&menucode=${menuname}`
         );
     }

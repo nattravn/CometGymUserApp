@@ -3,7 +3,7 @@ export interface Customer {
     name: string;
     email: string;
     phone: string;
-    creditlimit: number;
+    creditLimit: number;
     isActive: boolean;
     statusname: string;
 }

@@ -1,3 +1,104 @@
+# CometGym User App
+
+CometGym User App is an Angular-based frontend for the CometGym service. It provides authentication flows (register, login, password reset) and secure user pages for customers and admins.
+
+## Features
+
+- Authentication: register, login, OTP confirmation, password reset
+- Secure routes guarded by authentication
+- Angular Material for UI components
+- Organized modules: `auth`, `core`, `secure`, `shared`
+
+## Prerequisites
+
+- Node.js (LTS) and `npm` installed
+- Recommended: Node.js 18+ and npm 9+
+
+## Setup (Development)
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/paulthenightowl/CometGymUserApp.git
+cd CometGymUserApp
+```
+
+2. Install dependencies:
+
+```powershell
+npm install
+```
+
+3. Start the development server:
+
+```powershell
+npm run start
+```
+
+The app will usually be available at `http://localhost:4200` unless configured otherwise.
+
+## Running Tests
+
+Run the test script provided in `package.json`:
+
+```powershell
+npm test
+```
+
+## Project Structure (high level)
+
+- `src/app/auth/` — Authentication module and components (login, register, OTP, reset) 
+- `src/app/core/` — Core services, guards, models, shared singletons
+- `src/app/secure/` — Secure routes, protected components and features
+- `src/app/shared/` — Shared module and utilities
+- `environments/` — Environment config files for dev and production
+
+Files of interest:
+- `src/main.ts` — Angular bootstrap
+- `src/app/app.module.ts` — Root module
+- `angular.json` / `tsconfig.json` — Build and TypeScript config
+
+## Environment Variables
+
+The app reads settings from the Angular `environments` files. If the backend URL or other settings need to be changed, update `src/environments/environment.ts` and `src/environments/environment.development.ts` as needed.
+
+## Building for Production
+
+Use the Angular build command (or the npm script if present):
+
+```powershell
+npm run build
+```
+
+Or use the Angular CLI directly:
+
+```powershell
+ng build --prod
+```
+
+## Linting & Formatting
+
+If the repository includes lint or format scripts, run them from `package.json`:
+
+```powershell
+npm run lint
+npm run format
+```
+
+## Contributing
+
+1. Create a feature branch off `master`.
+2. Run tests and linters locally.
+3. Open a pull request with a clear description.
+
+## Troubleshooting
+
+- If `npm install` fails, ensure Node and npm versions are compatible.
+- If the dev server doesn't start, check for errors in the terminal and verify required environment config values exist.
+
+## License & Contact
+
+This project README was generated for the repository owner. For questions or help, contact the repo owner.
 # CometGymUserApp
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.1.

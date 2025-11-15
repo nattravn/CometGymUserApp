@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import { menu } from '@app/core/models/user.model';
+import { Menu } from '@app/core/models/user.model';
 import { UserStoreService } from '@app/core/services/user.store.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { UserStoreService } from '@app/core/services/user.store.service';
 export class AppMenuComponent implements OnInit {
     Loginuser = '';
 
-    menulist$ = new Observable<menu[]>();
+    menulist$ = new Observable<Menu[]>();
 
     showmenu: boolean = true;
 

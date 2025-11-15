@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of, tap } from 'rxjs';
 
 import { ApiResponse } from '@app/core/models/api-response';
-import { updatePassword } from '@app/core/models/user.model';
+import { UpdatePassword } from '@app/core/models/user.model';
 import { UserStoreService } from '@app/core/services/user.store.service';
 
 interface UpdateForm {
@@ -54,7 +54,7 @@ export class UpdatePasswordComponent implements OnInit {
         if (!this.resetForm.valid) return of();
         const { password, otpText } = this.resetForm.getRawValue();
 
-        const updatePassword: updatePassword = {
+        const updatePassword: UpdatePassword = {
             username: this.currentusername,
             password: password,
             otpText: otpText,

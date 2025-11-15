@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError, Observable, of, switchMap, tap } from 'rxjs';
 
 import { ApiResponse } from '@app/core/models/api-response';
-import { userCred } from '@app/core/models/user.model';
+import { UserCred } from '@app/core/models/user.model';
 import { UserStoreService } from '@app/core/services/user.store.service';
 
 interface LoginForm {
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
 
     proceedlogin$(): Observable<ApiResponse> {
         if (!this.loginform.valid) return of();
-        const formValue: userCred = this.loginform.getRawValue();
+        const formValue: UserCred = this.loginform.getRawValue();
 
         return this.userService.Proceedlogin(formValue).pipe(
             switchMap(user => {

@@ -1,11 +1,9 @@
 <mat-card>
     <mat-card-header>
         <h1>Customer Listing</h1>
-        <!-- @if (_permission.haveadd === true) {
-            <button style="margin-left: 70%" mat-raised-button color="primary" routerLink="/customer/add">
-                Add Customer
-            </button>
-        } -->
+        @if (_permission.haveadd === true) {
+            <button style="margin-left: 70%" mat-raised-button color="primary" routerLink="add">Add Customer</button>
+        }
     </mat-card-header>
     <mat-card-content>
         <table mat-table [dataSource]="datasource" matSort>
@@ -42,17 +40,18 @@
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let element">
-                    <!-- <button (click)="functionedit(element.code)" mat-raised-button color="primary">Edit</button>
-                    <button (click)="functiondelete(element.code)" mat-raised-button color="accent">Delete</button>
-                </td> -->
-                </td></ng-container
-            >
+                    <button (click)="edit(element.code)" mat-raised-button color="primary">Edit</button>
+                    <button [ngxAsyncClick]="delete.bind(this, element.code)" mat-raised-button color="accent">
+                        Delete
+                    </button>
+                </td>
+            </ng-container>
             <tr class="table-header" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </mat-card-content>
     <br />
     <mat-card-footer>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
     </mat-card-footer>
 </mat-card>
