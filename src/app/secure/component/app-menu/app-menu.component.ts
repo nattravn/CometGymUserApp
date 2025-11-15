@@ -22,7 +22,7 @@ export class AppMenuComponent implements OnInit {
 
     constructor(
         public userService: UserStoreService,
-        private router: Router,
+        public router: Router,
         private activatedRoute: ActivatedRoute,
         private destroyRef: DestroyRef,
         private cdr: ChangeDetectorRef
@@ -33,12 +33,19 @@ export class AppMenuComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.isRootRoute();
         const userrole = localStorage.getItem('userrole') as string;
 
         this.menulist$ = this.userService.LoadMenuByRole(userrole);
 
         this.Loginuser = localStorage.getItem('username') as string;
         console.log('this.router.url: ', this.activatedRoute.snapshot);
+    }
+
+    isRootRoute(): void {
+        if (this.router.url === '/' || this.router.url === '') {
+            this.router.navigate(['home']);
+        }
     }
 
     logOut(): void {

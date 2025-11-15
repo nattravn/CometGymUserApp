@@ -66,7 +66,7 @@ export class ResetPasswordComponent {
                 console.log('this._response: ', apiResponse);
                 if (apiResponse.responseCode == HttpStatusCode.Ok) {
                     this.toastr.success('Please login with new password', 'Password changed');
-                    this.router.navigateByUrl('app/login');
+                    this.router.navigateByUrl('login');
                 } else {
                     this.toastr.error(
                         `Failed due to : ${apiResponse.message ?? apiResponse.result}`,

@@ -42,7 +42,7 @@ export class ConfirmOtpComponent implements OnInit {
                     username: '',
                     otptext: '',
                 });
-                this.router.navigateByUrl('app/login');
+                this.router.navigateByUrl('login');
             } else {
                 this.toastr.error(`Failed Due to:${apiResponse.message}`, 'Registeration Failed');
             }

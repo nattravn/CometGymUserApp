@@ -87,7 +87,7 @@ export class AddCustomerComponent implements OnInit {
                         if (item.result === 'pass') {
                             this.toastr.success('Created successfully', 'Success');
                             console.log('5555555555');
-                            this.router.navigateByUrl('app/customer');
+                            this.router.navigateByUrl('customer');
                         } else {
                             console.log('error: ', item);
                             this.toastr.error(`Due to:${item.message}`, 'Failed');
@@ -106,7 +106,7 @@ export class AddCustomerComponent implements OnInit {
                     tap(item => {
                         if (item.result === 'pass') {
                             this.toastr.success('Updated successfully', 'Success');
-                            this.router.navigateByUrl('app/customer');
+                            this.router.navigateByUrl('customer');
                         } else {
                             this.toastr.error(`Due to:${item.message}`, 'Failed');
                         }

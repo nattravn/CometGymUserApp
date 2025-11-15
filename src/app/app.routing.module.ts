@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './core/guards/auth.guard';
+import { SigInGuard } from './core/guards/login.guard';
 
 export const routes: Routes = [
     {
@@ -9,11 +9,11 @@ export const routes: Routes = [
         loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
     },
     {
-        path: 'app',
+        path: '',
         loadChildren: () => import('./secure/secure.module').then(m => m.SecureModule),
-        canActivate: [AuthGuard], // double check protection at root
+        canActivate: [SigInGuard], // double check protection at root
     },
-    { path: '', redirectTo: 'app', pathMatch: 'full' },
+    // { path: '', redirectTo: 'home', pathMatch: 'full' },
     //{ path: '**', redirectTo: 'auth/login' },
 ];
 

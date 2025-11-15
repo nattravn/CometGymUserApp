@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
             tap(menuResponse => {
                 console.log('menuResponse: ', menuResponse);
                 this.userService._menulist.set(menuResponse);
-                this.router.navigateByUrl('app/home');
+                this.router.navigateByUrl('home');
             }),
             catchError(error => {
                 console.error('error: ', error);

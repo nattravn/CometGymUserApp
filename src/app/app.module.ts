@@ -12,7 +12,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { MaterialModule } from './core/material/material.module';
-import { jwtInterceptor } from './secure/errors/jwt.interceptor';
+import { errorInterceptor } from './secure/interceptors/global-error-handler';
+import { jwtInterceptor } from './secure/interceptors/jwt.interceptor';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -32,7 +33,7 @@ import { SharedModule } from './shared/shared.module';
         ReactiveFormsModule,
         FormsModule,
     ],
-    providers: [provideHttpClient(withInterceptors([jwtInterceptor]))],
+    providers: [provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor]))],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

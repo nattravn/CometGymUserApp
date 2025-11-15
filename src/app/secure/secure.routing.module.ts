@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from '@app/core/guards/auth.guard';
+import { MenuGuard } from '@app/core/guards/menu.guard';
 
 import { AppMenuComponent } from './component/app-menu/app-menu.component';
 import { AddCustomerComponent } from './component/customer/add-customer/add-customer.component';
@@ -16,11 +16,11 @@ export const routes: Routes = [
         component: AppMenuComponent,
         children: [
             { path: 'home', component: HomeComponent },
-            { path: 'userrole', component: UserRoleComponent, canActivate: [AuthGuard] },
-            { path: 'customer', component: CustomerComponent, canActivate: [AuthGuard] },
-            { path: 'customer/add', component: AddCustomerComponent, canActivate: [AuthGuard] },
-            { path: 'customer/edit/:code', component: AddCustomerComponent, canActivate: [AuthGuard] },
-            { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+            { path: 'userrole', component: UserRoleComponent, canActivate: [MenuGuard] },
+            { path: 'customer', component: CustomerComponent, canActivate: [MenuGuard] },
+            { path: 'customer/add', component: AddCustomerComponent, canActivate: [MenuGuard] },
+            { path: 'customer/edit/:code', component: AddCustomerComponent, canActivate: [MenuGuard] },
+            { path: 'user', component: UserComponent, canActivate: [MenuGuard] },
             //{ path: 'user', component: UserComponent, canActivate: [authGuard] },
             // other secure routes
         ],

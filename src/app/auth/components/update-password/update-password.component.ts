@@ -64,7 +64,7 @@ export class UpdatePasswordComponent implements OnInit {
             tap((apiResponse: ApiResponse) => {
                 if (apiResponse.result == 'Pass') {
                     this.toastr.success('Please login with new password', 'Password changed');
-                    this.router.navigateByUrl('app/login');
+                    this.router.navigateByUrl('login');
                 } else {
                     this.toastr.error(
                         `Failed due to : ${apiResponse.message ?? apiResponse.result}`,
