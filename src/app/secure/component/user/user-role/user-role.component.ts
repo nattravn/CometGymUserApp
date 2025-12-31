@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
+import { EMPTY, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
 import { MenuPermission, Menus, Roles } from '@app/core/models/user.model';
 import { UserService } from '@app/secure/services/user.service';
@@ -28,25 +29,24 @@ interface RoleForm {
     standalone: false,
 })
 export class UserRoleComponent implements OnInit {
-    rolelist!: Roles[];
-    menulist!: Menus[];
-    accessarray!: FormArray<FormGroup<RoleMenuForm>>;
-    useraccess!: MenuPermission;
+    rolelist$ = new Observable<Roles[]>();
+    accessarray = new FormArray<FormGroup<RoleMenuForm>>([]);
     _response: any;
 
-    roleMenuForm = new FormGroup<RoleMenuForm>({
-        menucode: new FormControl<string>('', { nonNullable: true }),
-        haveview: new FormControl<boolean>(false, { nonNullable: true }),
-        haveadd: new FormControl<boolean>(false, { nonNullable: true }),
-        haveedit: new FormControl<boolean>(false, { nonNullable: true }),
-        havedelete: new FormControl<boolean>(false, { nonNullable: true }),
-        userrole: new FormControl<string>('', { nonNullable: true }),
-    });
+    // roleMenuForm = new FormGroup<RoleMenuForm>({
+    //     menucode: new FormControl<string>('', { nonNullable: true }),
+    //     haveview: new FormControl<boolean>(false, { nonNullable: true }),
+    //     haveadd: new FormControl<boolean>(false, { nonNullable: true }),
+    //     haveedit: new FormControl<boolean>(false, { nonNullable: true }),
+    //     havedelete: new FormControl<boolean>(false, { nonNullable: true }),
+    //     userrole: new FormControl<string>('', { nonNullable: true }),
+    // });
 
     roleForm = new FormGroup<RoleForm>({
         userrole: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
         access: new FormArray<FormGroup<RoleMenuForm>>([]),
     });
+
     constructor(
         private builder: FormBuilder,
         private toastr: ToastrService,
@@ -54,11 +54,15 @@ export class UserRoleComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.loadroles();
-        this.loadmenus('');
+        this.loadmenus('').subscribe();
+        this.rolelist$ = this.service.getAllRoles().pipe(
+            map(item => {
+                return item;
+            })
+        );
     }
 
-    addNewRow(input: Menus, _access: MenuPermission, role: string): void {
+    addNewRow(input: Menus, _access: MenuPermission, role: string): FormGroup<RoleMenuForm> {
         const roleMenuForm = new FormGroup<RoleMenuForm>({
             menucode: new FormControl<string>(input.code, { nonNullable: true }),
             haveview: new FormControl<boolean>(_access.haveview, { nonNullable: true }),
@@ -69,20 +73,14 @@ export class UserRoleComponent implements OnInit {
         });
 
         this.accessarray.push(roleMenuForm);
-        console.log('input.code: ', this.accessarray.getRawValue());
 
+        return roleMenuForm;
         //this.roleForm.controls.access.setValue(this.accessarray.getRawValue());
-    }
-
-    loadroles(): void {
-        this.service.getAllRoles().subscribe(item => {
-            this.rolelist = item;
-        });
     }
 
     rolechange(event: any): void {
         const selectedrole = event.value;
-        this.loadmenus(selectedrole);
+        this.loadmenus(selectedrole).subscribe();
     }
 
     get getrows(): FormArray {
@@ -90,42 +88,52 @@ export class UserRoleComponent implements OnInit {
         return this.roleForm.controls.access;
     }
 
-    loadmenus(userrole: string): void {
+    loadmenus(userrole: string): Observable<FormArray<FormGroup<RoleMenuForm>>> {
         this.accessarray = this.roleForm.controls.access;
 
         this.accessarray.clear();
 
-        console.log('this.accessarray: ', this.accessarray);
-        //this.accessarray.clear();
-        this.service.getAllMenus().subscribe(item => {
-            this.menulist = item;
-            console.log('item: ', item);
-            if (this.menulist.length > 0) {
-                this.menulist.map((o: Menus) => {
-                    if (userrole != '') {
-                        this.service.getMenuPermission(userrole, o.code).subscribe(item => {
-                            this.useraccess = item;
-                            console.log('userrole: ', userrole);
-                            this.addNewRow(o, this.useraccess, userrole);
-                        });
-                    } else {
-                        console.log('o: ', o.code);
-                        this.addNewRow(
-                            o,
-                            {
-                                menucode: '',
-                                userrole: '',
-                                haveview: false,
-                                haveadd: false,
-                                haveedit: false,
-                                havedelete: false,
-                            },
-                            ''
-                        );
-                    }
-                });
-            }
-        });
+        return this.service.getAllMenus().pipe(
+            switchMap((menus: Menus[]) => {
+                if (menus.length > 0) {
+                    const menuPermissions$ = menus.map((menu: Menus) => {
+                        if (userrole != '') {
+                            return this.service.getMenuPermission(userrole, menu.code);
+                        } else {
+                            this.addNewRow(
+                                menu,
+                                {
+                                    menucode: '',
+                                    userrole: '',
+                                    haveview: false,
+                                    haveadd: false,
+                                    haveedit: false,
+                                    havedelete: false,
+                                },
+                                ''
+                            );
+                            return EMPTY;
+                        }
+                    });
+
+                    return forkJoin(menuPermissions$).pipe(
+                        switchMap((permissions: MenuPermission[]) => {
+                            const accessarray = new FormArray<FormGroup<RoleMenuForm>>([]);
+                            permissions.forEach((permission: MenuPermission) => {
+                                menus.forEach((menu: Menus) => {
+                                    if (permission.menucode === menu.code) {
+                                        this.addNewRow(menu, permission, userrole);
+                                        accessarray.push(this.addNewRow(menu, permission, userrole));
+                                    }
+                                });
+                            });
+                            return of(accessarray);
+                        })
+                    );
+                }
+                return of(new FormArray<FormGroup<RoleMenuForm>>([]));
+            })
+        );
     }
 
     Saveroles(): void {

@@ -65,7 +65,7 @@ export class UserService {
         return this.http.post(`${this.baseUrl}User/updatepassword`, _data);
     }
 
-    getMenuPermission(role: string, menuname: string): Observable<any> {
+    getMenuPermission(role: string, menuname: string): Observable<MenuPermission> {
         return this.http.get<MenuPermission>(
             `${this.baseUrl}UserRole/GetMenupermissionbyrole?userrole=${role}&menucode=${menuname}`
         );
@@ -79,7 +79,7 @@ export class UserService {
         return this.http.get<Users>(`${this.baseUrl}User/GetBycode?code=${code}`);
     }
 
-    getAllRoles(): Observable<any> {
+    getAllRoles(): Observable<Roles[]> {
         return this.http.get<Roles[]>(`${this.baseUrl}UserRole/GetAllRoles`);
     }
 

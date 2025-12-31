@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from '@app/auth/components/reset-password/rese
 import { UpdatePasswordComponent } from '@app/auth/components/update-password/update-password.component';
 
 import { AuthComponent } from './auth.component';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
 import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
             { path: 'forgetpassword', component: ForgetPasswordComponent },
             { path: 'resetpassword', component: ResetPasswordComponent },
             { path: 'updatepassword', component: UpdatePasswordComponent },
+            { path: 'access-denied', component: AccessDeniedComponent },
         ],
     },
 ];

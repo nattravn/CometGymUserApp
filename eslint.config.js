@@ -56,6 +56,8 @@ module.exports = tseslint.config(
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {
       '@angular-eslint/template/eqeqeq': 'warn',
+      '@typescript-eslint/no-unused-vars': ['off'],
+      'no-unused-vars': 'off',
     },
   }
 );

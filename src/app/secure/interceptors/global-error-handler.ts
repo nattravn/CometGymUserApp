@@ -13,12 +13,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             if (error.status === 401) {
                 // Token expired or invalid - logout and redirect
                 localStorage.removeItem('token');
-                router.navigate(['/login']);
+                console.log('Redirecting to login due to 401 error');
+                router.navigate(['auth/login']);
             }
 
             if (error.status === 403) {
                 // Forbidden - user doesn't have permission
-                router.navigate(['/access-denied']);
+                router.navigate(['auth/access-denied']);
             }
 
             return throwError(() => error);
