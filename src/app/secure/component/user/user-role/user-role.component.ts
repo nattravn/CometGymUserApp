@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
-import { EMPTY, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { forkJoin, Observable, of, switchMap, tap } from 'rxjs';
 
 import { MenuPermission, Menus, Roles } from '@app/core/models/user.model';
 import { UserService } from '@app/secure/services/user.service';
@@ -28,7 +28,7 @@ interface RoleForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false,
 })
-export class UserRoleComponent implements OnInit {
+export class UserRoleComponent implements AfterViewInit {
     rolelist$ = new Observable<Roles[]>();
     accessarray = new FormArray<FormGroup<RoleMenuForm>>([]);
     _response: any;
@@ -50,16 +50,19 @@ export class UserRoleComponent implements OnInit {
     constructor(
         private builder: FormBuilder,
         private toastr: ToastrService,
-        private service: UserService
+        private service: UserService,
+        private cdr: ChangeDetectorRef
     ) {}
-
-    ngOnInit(): void {
-        this.loadmenus('').subscribe();
-        this.rolelist$ = this.service.getAllRoles().pipe(
-            map(item => {
-                return item;
-            })
+    ngAfterViewInit(): void {
+        this.rolelist$ = this.loadmenus('').pipe(
+            switchMap(() => this.service.getAllRoles()),
+            tap(t => console.log('ttttt', t))
         );
+
+        // this.roleForm.valueChanges.subscribe();
+        // this.roleForm.markAsTouched();
+        // this.cdr.markForCheck();
+        this.cdr.detectChanges();
     }
 
     addNewRow(input: Menus, _access: MenuPermission, role: string): FormGroup<RoleMenuForm> {
@@ -80,6 +83,7 @@ export class UserRoleComponent implements OnInit {
 
     rolechange(event: any): void {
         const selectedrole = event.value;
+        console.log('event: ', event);
         this.loadmenus(selectedrole).subscribe();
     }
 
@@ -112,7 +116,16 @@ export class UserRoleComponent implements OnInit {
                                 },
                                 ''
                             );
-                            return EMPTY;
+                            console.log('kkkkkkkkkkkk');
+                            const x: MenuPermission = {
+                                menucode: '',
+                                userrole: '',
+                                haveview: false,
+                                haveadd: false,
+                                haveedit: false,
+                                havedelete: false,
+                            };
+                            return of(x);
                         }
                     });
 
