@@ -7,7 +7,7 @@
         <mat-card-content>
             <mat-form-field>
                 <mat-label>Select user Role</mat-label>
-                <mat-select formControlName="userrole" (selectionChange)="rolechange($event)">
+                <mat-select formControlName="userrole">
                     @for (item of rolelist; track item) {
                         <mat-option value="{{ item.code }}">{{ item.name }}</mat-option>
                     }

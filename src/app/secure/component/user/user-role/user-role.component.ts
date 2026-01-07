@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin, Observable, of, switchMap, tap } from 'rxjs';
+import { distinctUntilChanged, forkJoin, Observable, of, switchMap } from 'rxjs';
 
 import { MenuPermission, Menus, Roles } from '@app/core/models/user.model';
 import { UserService } from '@app/secure/services/user.service';
@@ -28,19 +28,9 @@ interface RoleForm {
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false,
 })
-export class UserRoleComponent implements AfterViewInit {
+export class UserRoleComponent implements OnInit {
     rolelist$ = new Observable<Roles[]>();
-    accessarray = new FormArray<FormGroup<RoleMenuForm>>([]);
-    _response: any;
-
-    // roleMenuForm = new FormGroup<RoleMenuForm>({
-    //     menucode: new FormControl<string>('', { nonNullable: true }),
-    //     haveview: new FormControl<boolean>(false, { nonNullable: true }),
-    //     haveadd: new FormControl<boolean>(false, { nonNullable: true }),
-    //     haveedit: new FormControl<boolean>(false, { nonNullable: true }),
-    //     havedelete: new FormControl<boolean>(false, { nonNullable: true }),
-    //     userrole: new FormControl<string>('', { nonNullable: true }),
-    // });
+    accessFormArray = new FormArray<FormGroup<RoleMenuForm>>([]);
 
     roleForm = new FormGroup<RoleForm>({
         userrole: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -53,16 +43,18 @@ export class UserRoleComponent implements AfterViewInit {
         private service: UserService,
         private cdr: ChangeDetectorRef
     ) {}
-    ngAfterViewInit(): void {
-        this.rolelist$ = this.loadmenus('').pipe(
-            switchMap(() => this.service.getAllRoles()),
-            tap(t => console.log('ttttt', t))
-        );
+    ngOnInit(): void {
+        this.rolelist$ = this.service.getAllRoles();
 
-        // this.roleForm.valueChanges.subscribe();
-        // this.roleForm.markAsTouched();
-        // this.cdr.markForCheck();
-        this.cdr.detectChanges();
+        this.roleForm.controls.userrole.valueChanges
+            .pipe(
+                distinctUntilChanged(),
+                switchMap(role => this.loadmenus(role))
+            )
+            .subscribe(_ => {
+                //this.setAccessFormArray(menus);
+                this.cdr.markForCheck();
+            });
     }
 
     addNewRow(input: Menus, _access: MenuPermission, role: string): FormGroup<RoleMenuForm> {
@@ -75,58 +67,25 @@ export class UserRoleComponent implements AfterViewInit {
             userrole: new FormControl<string>(role, { nonNullable: true }),
         });
 
-        this.accessarray.push(roleMenuForm);
+        this.accessFormArray.push(roleMenuForm);
 
         return roleMenuForm;
-        //this.roleForm.controls.access.setValue(this.accessarray.getRawValue());
-    }
-
-    rolechange(event: any): void {
-        const selectedrole = event.value;
-        console.log('event: ', event);
-        this.loadmenus(selectedrole).subscribe();
     }
 
     get getrows(): FormArray {
-        console.log('this.roleForm.controls.access: ', this.roleForm.controls.access.controls);
         return this.roleForm.controls.access;
     }
 
     loadmenus(userrole: string): Observable<FormArray<FormGroup<RoleMenuForm>>> {
-        this.accessarray = this.roleForm.controls.access;
+        this.accessFormArray = this.roleForm.controls.access;
 
-        this.accessarray.clear();
+        this.accessFormArray.clear();
 
         return this.service.getAllMenus().pipe(
             switchMap((menus: Menus[]) => {
                 if (menus.length > 0) {
                     const menuPermissions$ = menus.map((menu: Menus) => {
-                        if (userrole != '') {
-                            return this.service.getMenuPermission(userrole, menu.code);
-                        } else {
-                            this.addNewRow(
-                                menu,
-                                {
-                                    menucode: '',
-                                    userrole: '',
-                                    haveview: false,
-                                    haveadd: false,
-                                    haveedit: false,
-                                    havedelete: false,
-                                },
-                                ''
-                            );
-                            console.log('kkkkkkkkkkkk');
-                            const x: MenuPermission = {
-                                menucode: '',
-                                userrole: '',
-                                haveview: false,
-                                haveadd: false,
-                                haveedit: false,
-                                havedelete: false,
-                            };
-                            return of(x);
-                        }
+                        return this.service.getMenuPermission(userrole, menu.code);
                     });
 
                     return forkJoin(menuPermissions$).pipe(
@@ -135,7 +94,6 @@ export class UserRoleComponent implements AfterViewInit {
                             permissions.forEach((permission: MenuPermission) => {
                                 menus.forEach((menu: Menus) => {
                                     if (permission.menucode === menu.code) {
-                                        this.addNewRow(menu, permission, userrole);
                                         accessarray.push(this.addNewRow(menu, permission, userrole));
                                     }
                                 });
@@ -154,11 +112,10 @@ export class UserRoleComponent implements AfterViewInit {
             const access: MenuPermission[] = this.roleForm.getRawValue().access;
             console.log('access: ', access);
             this.service.assigRolePermission(access).subscribe(item => {
-                this._response = item;
-                if (this._response.result == 'pass') {
+                if (item.result == 'pass') {
                     this.toastr.success('Permission assigned successfully', 'Saved');
                 } else {
-                    this.toastr.error(`Failed due to : ${this._response.message}`, 'Menu access assignment');
+                    this.toastr.error(`Failed due to : ${item.message}`, 'Menu access assignment');
                 }
             });
         }
