@@ -16,7 +16,7 @@ interface CustomerForm {
     email: FormControl<string>;
     phone: FormControl<string>;
     creditLimit: FormControl<number>;
-    status: FormControl<boolean>;
+    isActive: FormControl<boolean>;
 }
 
 @Component({
@@ -37,7 +37,7 @@ export class AddCustomerComponent implements OnInit {
         email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
         phone: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
         creditLimit: new FormControl<number>(0, { nonNullable: true, validators: [Validators.required] }),
-        status: new FormControl<boolean>(true, { nonNullable: true }),
+        isActive: new FormControl<boolean>(true, { nonNullable: true }),
     });
 
     constructor(
@@ -64,7 +64,7 @@ export class AddCustomerComponent implements OnInit {
                         email: customer.email,
                         phone: customer.phone,
                         creditLimit: customer.creditLimit,
-                        status: customer.isActive,
+                        isActive: customer.isActive,
                     });
                 })
             );
@@ -77,8 +77,7 @@ export class AddCustomerComponent implements OnInit {
 
             const customer: Customer = {
                 ..._obj,
-                isActive: true,
-                statusname: '',
+                statusName: '',
             };
 
             if (!this.isEdit) {
