@@ -5,5 +5,5 @@ export interface Customer {
     phone: string;
     creditLimit: number;
     isActive: boolean;
-    statusname: string;
+    statusName: string;
 }
