@@ -74,7 +74,7 @@ export class CustomerComponent implements OnInit {
 
     edit(code: string): void {
         if (this._permission.haveedit) {
-            this.router.navigateByUrl(`app/customer/edit/${code}`);
+            this.router.navigateByUrl(`customer/edit/${code}`);
         } else {
             this.toastr.warning('User not having edit access', 'warning');
         }
