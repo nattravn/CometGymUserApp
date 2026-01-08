@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.container > form {
+    width: 50%;
+    min-width: 320px;
+}

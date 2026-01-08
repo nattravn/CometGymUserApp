@@ -9,14 +9,6 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-mat-card {
-    margin: 2%;
-    text-align: left;
-    width: 50%;
-    margin-left: 25%;
-    border: 1px solid #ccc;
-}
-
 .mat-mdc-form-field {
     width: 98%;
     margin: 1%;
@@ -39,4 +31,9 @@ mat-card {
 
 button {
     margin: 2px;
+}
+
+// prevent card footer from being cut off
+mat-card-footer {
+    padding-bottom: 6px;
 }

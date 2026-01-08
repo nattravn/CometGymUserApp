@@ -20,7 +20,7 @@ interface UserForm {
     selector: 'app-user-update',
     standalone: false,
     templateUrl: './user-update.component.html',
-    styleUrls: ['./user-update.component.css'],
+    styleUrls: ['./user-update.component.scss'],
 })
 export class UserUpdateComponent implements OnInit {
     dialogdata: any;

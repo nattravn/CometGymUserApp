@@ -17,7 +17,7 @@ import { UserUpdateComponent } from './user-update/user-update.component';
     selector: 'app-user',
     standalone: false,
     templateUrl: './user.component.html',
-    styleUrls: ['./user.component.css'],
+    styleUrls: ['./user.component.scss'],
 })
 export class UserComponent implements OnInit {
     userlist!: Users[];
@@ -60,8 +60,6 @@ export class UserComponent implements OnInit {
         this.dialog
             .open(UserUpdateComponent, {
                 width: '30%',
-                enterAnimationDuration: '1000ms',
-                exitAnimationDuration: '1000ms',
                 data: {
                     username: username,
                     type: type,
